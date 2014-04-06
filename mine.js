@@ -1,19 +1,19 @@
 
-function mine(){
+function mine(mineRate){
 
-		this.mineRate = .001;
+		this.mineRate = mineRate;
 
         this.upgrade = function(type)
         {   
             switch(type)
             {
-                case(250):
+                case(100):
                     this.mineRate += .005;
-                    return 250.00;
+                    return 100.00;
                     break;
-                case(500):
+                case(250):
                     this.mineRate += .010;
-                    return 500.00;
+                    return 250.00;
                     break;
                 default:
                     return 0.00;

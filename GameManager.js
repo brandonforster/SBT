@@ -11,28 +11,23 @@ function GameManager()
 	var saveInterval;
 	begin();
 
-	var mS = document.getElementById("mS");
 	var resetEl = document.getElementById("reset");
 	var minerUpgrade = document.getElementById("minerUpgrade");
 	var minerChoice = document.getElementById("minerChoice");
 	var buyButton = document.getElementById("buyBitcoin");
 	var sellButton = document.getElementById("sellBitcoin");
-	mS.onclick = function()
-				{
-					startMining();
-					disableMineStart();
 
-				}
-
+	// Set onclick for reset button
 	resetEl.onclick = function()
 					{
 						resetWallet();
 					}
-
+	// set onclick for "Buy!"
 	minerUpgrade.onclick = function()
 					{
 						upgradeMiner();
 					}
+	// Set onclick for buy and sell bitcoin
 	buyButton.onclick = function()
 					{
 						buyBitcoin();
@@ -42,6 +37,7 @@ function GameManager()
 						sellBitcoin();
 					}
 
+	// Initializes game state
 	function begin()
 	{ //loading in read stats of Degree
 		this.jsName = localStorage.getItem("name");
@@ -56,6 +52,8 @@ function GameManager()
 		document.getElementById("Alg").innerHTML = this.gamer.algo;
 		document.getElementById("Goog").innerHTML = this.gamer.googfu;
 
+
+		// Checks if player has played before, and stops alerting them everytime
 		var temp = localStorage.getItem('playedBefore');
 		if(temp == null || temp == "false")
 		{
@@ -68,39 +66,64 @@ function GameManager()
 		startGame();
 	}
 
+	// Gets save info from localStorafe or creates data if new player
 	function startGame()
 	{
-		var temp = localStorage.getItem('wallet');
-		if(temp == null || temp == undefined || temp == "undefined" || temp == "null")
+		// Get wallet save data
+		var tempWallet = localStorage.getItem('wallet');
+		if(tempWallet == null || tempWallet == undefined || tempWallet == "undefined" || tempWallet == "null")
 		{
+			// No save data, create new object
 			this.currWallet = new wallet(0,250);
 		}
 		else
 		{
-			temp = JSON.parse(temp);
-			loadWallet(temp);
+			// valid save data, get values
+			tempWallet = JSON.parse(tempWallet);
+			loadWallet(tempWallet);
 		}
 
-		this.currMarket = new market(10, 10);
+		// Get market save data
+		var tempMarket = localStorage.getItem('market');
+		if(tempMarket == null || tempMarket == undefined || tempMarket == "undefined" || tempMarket == "null")
+		{
+			this.currMarket = new market(10,10);
+		}
+		else
+		{
+			tempMarket = JSON.parse(tempMarket);
+			loadMarket(tempMarket);
+		}
 
-		this.saveInterval = setInterval(save, 100);
+		// Start autosave, every 1/10 of second
+		// Set initial values on screen
 		this.display = this.currWallet.bitcoin.toString();
 		this.display = this.display.substring(0,5);
 		amount.innerHTML = this.display;
+
+		startMining();
+		disableMineStart();
 	}
 
+	// Stores data in localStorage
 	function save()
 	{
 		localStorage.setItem('wallet', JSON.stringify(this.currWallet));
+		localStorage.setItem('market', JSON.stringify(this.currMarket));
+		localStorage.setItem('miner', JSON.stringify(this.miner));
 	}
 
+	// Reset game (mostly for debugging)
 	function resetWallet()
 	{
 		this.currWallet.bitcoin = 0;
 		this.currWallet.dollars = 250;
+		this.miner.mineRate = .001;
+
 		displayUpdate();
 	}
 
+	// Parses info from localStorage into new game
 	function loadWallet(temp)
 	{
 
@@ -110,16 +133,37 @@ function GameManager()
 		this.currWallet = new wallet(btc, dol);
 	}
 
+	function loadMarket(temp)
+	{
+		var buy = parseFloat(temp['buyValue']);
+		var sell = parseFloat(temp['sellValue']);
+
+		this.currMarket = new market(sell, buy);
+	}
+
 	function displayUpdate(){
 			amount.innerHTML = this.display;
 			dols.innerHTML   = this.currWallet.dollars;
 			delta.innerHTML  = this.miner.mineRate;
-			sellVal.innerHTML = this.currMarket.sellValue;
+			sellVal.innerHTML = "$" + this.currMarket.sellValue;
 	}
 
 	function startMining()
 	{
-		this.miner = new mine();
+
+		var tempMiner = localStorage.getItem('miner');
+		if(tempMiner == null || tempMiner == undefined || tempMiner == "undefined" || tempMiner == "null")
+		{
+			// No save data, create new object
+			this.miner = new mine(.001);
+		}
+		else
+		{
+			// valid save data, get values
+			tempMiner = JSON.parse(tempMiner);
+			loadMiner(tempMiner);
+		}
+
 		setInterval(function(){
 
    			this.currWallet.bitcoin += this.miner.mineRate;
@@ -128,12 +172,21 @@ function GameManager()
 
    			displayUpdate();
 		},1000);
+
+		this.saveInterval = setInterval(save, 100);
+	}
+
+	function loadMiner(temp)
+	{
+		var mR = parseFloat(temp['mineRate']);
+
+		this.miner = new mine(mR);
 	}
 
 	function upgradeMiner()
 	{
 			var price = parseInt(this.minerChoice.value);
-			if(price < this.currWallet.dollars)
+			if(price <= this.currWallet.dollars)
 			{
 				var temp = this.miner.upgrade(price);
 				this.currWallet.dollars -= temp;
@@ -143,7 +196,7 @@ function GameManager()
 
 	function buyBitcoin()
 	{
-		if(this.currWallet.dollars > this.currMarket.buyValue)
+		if(this.currWallet.dollars >= this.currMarket.buyValue)
 		{
 			this.currWallet.dollars -= this.currMarket.buyValue;
 			this.currWallet.bitcoin += 1;
@@ -152,7 +205,7 @@ function GameManager()
 
 	function sellBitcoin()
 	{
-		if(this.currWallet.bitcoin > 1)
+		if(this.currWallet.bitcoin >= 1)
 		{
 			this.currWallet.bitcoin -= 1;
 			this.currWallet.dollars += this.currMarket.sellValue;

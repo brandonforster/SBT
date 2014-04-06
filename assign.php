@@ -117,8 +117,8 @@
 			<form>
 				<select id="minerChoice">
 					<option value="-1">Select Item(s)</otpion>
-					<option value="250">Basic BitCoin Miner $250.00 (+.005 BTC/s)</option>
-					<option value="500">GPU++ BitCoin Miner $500.00 (+.010 BTC/s)</option>
+					<option value="100">Basic BitCoin Miner $100.00 (+.005 BTC/s)</option>
+					<option value="250">GPU++ BitCoin Miner $250.00 (+.010 BTC/s)</option>
 				</select>
 
 			</form>
