@@ -1,36 +1,10 @@
 
 function mine(){
 
-		var amount = document.getElementById('amount')
-		var current = 0.000000;
-		var mineRate = .001;
-
-		var display = current.toString();
-		var display2 = display.substring(0,5);
-
-		var delta = document.getElementById('delta')
-		
-		displayUpdate();
-
-
-		function displayUpdate(){
-			amount.innerHTML = display2;
-			delta.innerHTML = mineRate;
-		}
-
-
-		setInterval(function(){
-   			current += mineRate;
-   			display = current.toString();
-			display2 = display.substring(0,5);
-
-   			displayUpdate();
-		},1000);
+		this.mineRate = .001;
 }
 
-function disableMineStart(){
-		document.getElementById("mineStart").innerHTML = "Currently Mining!";
-}
+
 	
 //may use this function later for USD ticker
 

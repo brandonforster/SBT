@@ -6,27 +6,22 @@
 		<script src="player.js" ></script>
 		<script src="mine.js" ></script>
 		<script src="wallet.js" ></script>	
+		<script src="GameManager.js" ></script>	
 		<script type="text/javascript">
 			//transferring over the gamer stuff is currently working
 			//Local Storage works beautifully
-			var jsName = localStorage.getItem("name");
-			var jsMajor = localStorage.getItem("major");
-			//rebuilding our gamer stats
-			var gamer = new player(jsName,jsMajor);
-			baseStats(gamer);
-
-			var currWallet = new wallet(0,250);
-
-			window.onload = function(){ //loading in read stats of Degree
-				document.getElementById("MAJOR").innerHTML = gamer.fullMajor;
-				document.getElementById("Hard").innerHTML = gamer.hardware;
-				document.getElementById("Soft").innerHTML = gamer.software;
-				document.getElementById("Alg").innerHTML = gamer.algo;
-				document.getElementById("Goog").innerHTML = gamer.googfu;
-
-				alert("You have one mission. BitCoins.\n\nAre you a bad enough dude or dudette to ignore all your classes, real life responsibilities, and focus on one thing? Of course you are. You're an engineering student. Your task is to mine BitCoin all day. Everyday. Your goal is make a billion USD before you graduate.\n\nYour parent's always said you were \"good with computers\". This should be easy!");
-
+			window.onload = function(){
+				var gameManager = new GameManager();
 			}
+
+			//rebuilding our gamer stats
+	
+			
+
+	
+
+
+			
 		</script>
 
 		<link href="design.css" type="text/css" rel="stylesheet" />
@@ -44,7 +39,7 @@
 		<form>
 			<input type="button" onclick="newTest();" Value="JSTest"/> 
 			<span id="mineStart">
-				<input type="button" onclick="mine();disableMineStart()" Value="Begin Mining Bitcoin!"/>
+				<input id ="mS" type="button" onclick="startMining();`ableMineStart()" Value="Begin Mining Bitcoin!"/>
 			</span>
 			<img src="bcoin.gif" height="35" width="35">
 		</form>
