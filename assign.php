@@ -5,7 +5,8 @@
 		
 		<script src="player.js" ></script>
 		<script src="mine.js" ></script>
-		<script src="wallet.js" ></script>	
+		<script src="wallet.js" ></script>
+		<script src="market.js" ></script>		
 		<script src="GameManager.js" ></script>	
 		<script type="text/javascript">
 			//transferring over the gamer stuff is currently working
@@ -79,7 +80,7 @@
 					</tr>
 					<tr>
 						<th>Market Val</th>
-						<td>bitVal</td>
+						<td><div id="sellVal"></div></td>
 						<td>USDVal</td>
 						<td>-----</td>
 					</tr>
@@ -112,7 +113,7 @@
 				</table>	
 		</fieldset>	
 		<fieldset>
-			<legend>BitCoin R' Us</legend>
+			<legend>Miner Upgrades</legend>
 			<form>
 				<select id="minerChoice">
 					<option value="-1">Select Item(s)</otpion>
@@ -123,6 +124,12 @@
 			</form>
 
 			<input type="button" id="minerUpgrade" Value="Buy!" onlclick=""/>
+		</fieldset>
+
+		<fieldset>
+			<legend>Bitcoin Market</legend>
+			<input type="button" id="buyBitcoin" Value="Buy 1 Bitcoin!" onlclick=""/>
+			<input type="button" id="sellBitcoin" Value="Sell 1 Bitcoin!" onlclick=""/>
 		</fieldset>
 
 	</div>

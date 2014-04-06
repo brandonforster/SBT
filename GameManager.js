@@ -7,6 +7,7 @@ function GameManager()
 	var display;
 	var gamer;
 	var currWallet;
+	var currMarket;
 	var saveInterval;
 	begin();
 
@@ -14,6 +15,8 @@ function GameManager()
 	var resetEl = document.getElementById("reset");
 	var minerUpgrade = document.getElementById("minerUpgrade");
 	var minerChoice = document.getElementById("minerChoice");
+	var buyButton = document.getElementById("buyBitcoin");
+	var sellButton = document.getElementById("sellBitcoin");
 	mS.onclick = function()
 				{
 					startMining();
@@ -29,6 +32,14 @@ function GameManager()
 	minerUpgrade.onclick = function()
 					{
 						upgradeMiner();
+					}
+	buyButton.onclick = function()
+					{
+						buyBitcoin();
+					}
+	sellButton.onclick = function()
+					{
+						sellBitcoin();
 					}
 
 	function begin()
@@ -70,6 +81,8 @@ function GameManager()
 			loadWallet(temp);
 		}
 
+		this.currMarket = new market(10, 10);
+
 		this.saveInterval = setInterval(save, 100);
 		this.display = this.currWallet.bitcoin.toString();
 		this.display = this.display.substring(0,5);
@@ -101,6 +114,7 @@ function GameManager()
 			amount.innerHTML = this.display;
 			dols.innerHTML   = this.currWallet.dollars;
 			delta.innerHTML  = this.miner.mineRate;
+			sellVal.innerHTML = this.currMarket.sellValue;
 	}
 
 	function startMining()
@@ -124,7 +138,25 @@ function GameManager()
 				var temp = this.miner.upgrade(price);
 				this.currWallet.dollars -= temp;
 			}
-		
+
+	}
+
+	function buyBitcoin()
+	{
+		if(this.currWallet.dollars > this.currMarket.buyValue)
+		{
+			this.currWallet.dollars -= this.currMarket.buyValue;
+			this.currWallet.bitcoin += 1;
+		}
+	}
+
+	function sellBitcoin()
+	{
+		if(this.currWallet.bitcoin > 1)
+		{
+			this.currWallet.bitcoin -= 1;
+			this.currWallet.dollars += this.currMarket.sellValue;
+		}
 	}
 }
 
