@@ -3,11 +3,11 @@
 	<head>
 		<noscript> <strong style="background-color:red"> STUDENT: CTU requires JavcaScript to be enables to be fully functional.</strong> </noscript>
 		
-		<script src="player.js" ></script>
-		<script src="mine.js" ></script>
-		<script src="wallet.js" ></script>
-		<script src="market.js" ></script>		
-		<script src="GameManager.js" ></script>	
+		<script type="text/javascript" src="player.js" ></script>
+		<script type="text/javascript" src="mine.js" ></script>
+		<script type="text/javascript" src="wallet.js" ></script>
+		<script type="text/javascript" src="market.js" ></script>		
+		<script type="text/javascript" src="GameManager.js" ></script>	
 		<script type="text/javascript">
 			//transferring over the gamer stuff is currently working
 			//Local Storage works beautifully
