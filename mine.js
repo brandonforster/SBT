@@ -2,6 +2,24 @@
 function mine(){
 
 		this.mineRate = .001;
+
+        this.upgrade = function(type)
+        {   
+            switch(type)
+            {
+                case(250):
+                    this.mineRate += .005;
+                    return 250.00;
+                    break;
+                case(500):
+                    this.mineRate += .010;
+                    return 500.00;
+                    break;
+                default:
+                    return 0.00;
+                    break;
+            }
+        }
 }
 
 

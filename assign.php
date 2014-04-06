@@ -39,9 +39,10 @@
 		<form>
 			<input type="button" onclick="newTest();" Value="JSTest"/> 
 			<span id="mineStart">
-				<input id ="mS" type="button" onclick="startMining();`ableMineStart()" Value="Begin Mining Bitcoin!"/>
+				<input id ="mS" type="button" onclick="startMining();disableMineStart()" Value="Begin Mining Bitcoin!"/>
 			</span>
 			<img src="bcoin.gif" height="35" width="35">
+			<input type="button" id="reset" Value="Reset"/>
 		</form>
 
 	<script type="text/javascript">
@@ -67,7 +68,7 @@
 					<tr>
 						<th>Curr Wallet</th>
 						<td><div id='amount'>0.000</div></td>
-						<td>250.00</td>
+						<td><div id='dols'>250.00</div></td>
 						<td>junior</td>
 					</tr>
 					<tr>
@@ -112,13 +113,16 @@
 		</fieldset>	
 		<fieldset>
 			<legend>BitCoin R' Us</legend>
-			<select>
-				<option value="-1">Select Item(s)</otpion>
-				<option value="level1">Basic BitCoin Miner $250.00</option>
-				<option value="level2">GPU++ BitCoin Miner $500.00</option>
-			</select>
+			<form>
+				<select id="minerChoice">
+					<option value="-1">Select Item(s)</otpion>
+					<option value="250">Basic BitCoin Miner $250.00 (+.005 BTC/s)</option>
+					<option value="500">GPU++ BitCoin Miner $500.00 (+.010 BTC/s)</option>
+				</select>
 
-			<input type="button" Value="Buy!" onlclick=""/>
+			</form>
+
+			<input type="button" id="minerUpgrade" Value="Buy!" onlclick=""/>
 		</fieldset>
 
 	</div>
