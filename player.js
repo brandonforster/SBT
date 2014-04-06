@@ -1,10 +1,7 @@
 function player(name, major){
 	this.name=name;
 	this.major=major;
-	//this.hardware=hardware;
-	//this.software=software;
-	//this.algo=algo;
-	//this.googfu=googfu;
+	
 };
 
 function baseStats(player){

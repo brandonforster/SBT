@@ -1,36 +1,28 @@
 
-function mine(){
+function mine(mineRate){
 
-		var amount = document.getElementById('amount')
-		var current = 0.000000;
-		var mineRate = .001;
+		this.mineRate = mineRate;
 
-		var display = current.toString();
-		var display2 = display.substring(0,5);
-
-		var delta = document.getElementById('delta')
-		
-		displayUpdate();
-
-
-		function displayUpdate(){
-			amount.innerHTML = display2;
-			delta.innerHTML = mineRate;
-		}
-
-
-		setInterval(function(){
-   			current += mineRate;
-   			display = current.toString();
-			display2 = display.substring(0,5);
-
-   			displayUpdate();
-		},1000);
+        this.upgrade = function(type)
+        {   
+            switch(type)
+            {
+                case(100):
+                    this.mineRate += .005;
+                    return 100.00;
+                    break;
+                case(250):
+                    this.mineRate += .010;
+                    return 250.00;
+                    break;
+                default:
+                    return 0.00;
+                    break;
+            }
+        }
 }
 
-function disableMineStart(){
-		document.getElementById("mineStart").innerHTML = "Currently Mining!";
-}
+
 	
 //may use this function later for USD ticker
 
