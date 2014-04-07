@@ -20,7 +20,7 @@ function GameManager()
 	// Set onclick for reset button
 	resetEl.onclick = function()
 					{
-						resetWallet();
+						resetGame();
 					}
 	// set onclick for "Buy!"
 	minerUpgrade.onclick = function()
@@ -95,6 +95,15 @@ function GameManager()
 			loadMarket(tempMarket);
 		}
 
+
+		this.marketUpdate = setInterval(function(){
+			this.currMarket.updatePrice();
+		}, 1000);
+
+		this.trendUpdate = setInterval(function(){
+			this.currMarket.newTrend(this.gamer.googfu);
+		}, 5000);
+
 		// Start autosave, every 1/10 of second
 		// Set initial values on screen
 		this.display = this.currWallet.bitcoin.toString();
@@ -114,12 +123,14 @@ function GameManager()
 	}
 
 	// Reset game (mostly for debugging)
-	function resetWallet()
+	function resetGame()
 	{
 		this.currWallet.bitcoin = 0;
 		this.currWallet.dollars = 250;
 		this.miner.mineRate = .001;
-
+		this.currMarket.sellValue = 10;
+		this.currMarket.buyValue = 10;
+		this.currMarket.trend = 1;
 		displayUpdate();
 	}
 
@@ -138,14 +149,19 @@ function GameManager()
 		var buy = parseFloat(temp['buyValue']);
 		var sell = parseFloat(temp['sellValue']);
 
+		if(buy == null || buy == "null" || isNaN(buy))
+			buy = 10;
+		if(sell == null || sell == "null" || isNaN(sell))
+			sell = 10;
+
 		this.currMarket = new market(sell, buy);
 	}
 
 	function displayUpdate(){
 			amount.innerHTML = this.display;
-			dols.innerHTML   = this.currWallet.dollars;
-			delta.innerHTML  = this.miner.mineRate;
-			sellVal.innerHTML = "$" + this.currMarket.sellValue;
+			dols.innerHTML   = this.currWallet.dollars.toFixed(2);
+			delta.innerHTML  = this.miner.mineRate.toFixed(3);
+			sellVal.innerHTML = "$" + this.currMarket.sellValue.toFixed(2);
 	}
 
 	function startMining()
