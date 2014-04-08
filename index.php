@@ -4,6 +4,15 @@
 
 		<noscript> <strong style="background-color:red"> STUDENT: CTU requires JavaScript to be enables to be fully functional.</strong> </noscript>
 
+		<script>
+		var temp = localStorage.getItem('playedBefore');
+		if(temp == true || temp == "true")
+		{
+			window.location.href = "assign.php";
+		}
+
+		</script>
+
 	</head>
 	<body style=>
 		<h1 style="background-color:orange">Central Technological University</ht>
