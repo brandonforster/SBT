@@ -19,3 +19,8 @@ h1{
 p{
 	font-family: "Courier New", Courier, monospace;
 }
+
+canvas
+{
+	border: solid 1px;
+}

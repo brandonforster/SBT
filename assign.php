@@ -78,7 +78,7 @@
 					<tr>
 						<th>Minerate</th>
 						<td><div id='delta'>0.000</div></td></td>
-						<td>0.000</td>
+						<td>BTC/s</td>
 						<td>-----</td>
 					</tr>
 					<tr>
@@ -120,8 +120,8 @@
 			<form>
 				<select id="minerChoice">
 					<option value="-1">Select Item(s)</otpion>
-					<option value="100">Basic BitCoin Miner $100.00 (+.005 BTC/s)</option>
-					<option value="250">GPU++ BitCoin Miner $250.00 (+.010 BTC/s)</option>
+					<option id = "mc1" value="1">Basic BitCoin Miner $100.00 (+.005 BTC/s)</option>
+					<option id = "mc2" value="2">GPU++ BitCoin Miner $250.00 (+.010 BTC/s)</option>
 				</select>
 
 			</form>
@@ -131,8 +131,10 @@
 
 		<fieldset>
 			<legend>Bitcoin Market</legend>
-			<input type="button" id="buyBitcoin" Value="Buy 1 Bitcoin!" onlclick=""/>
-			<input type="button" id="sellBitcoin" Value="Sell 1 Bitcoin!" onlclick=""/>
+			<input type="text" id="buyAmount" value="0"/>
+			<input type="button" id="buyBitcoin" Value="Buy Bitcoin!" onclick=""/>
+			<input type="text" id="sellAmount" value="0"/>
+			<input type="button" id="sellBitcoin" Value="Sell Bitcoin!" onclick=""/>
 		</fieldset>
 
 		<fieldset>
@@ -150,6 +152,7 @@
 			<input type="button" id="statUpgrade" value="Upgrade!"/>
 		</fieldset>
 
+		<canvas id="priceGraph" height = 300 width = 500></canvas>
 	</div>
 
 

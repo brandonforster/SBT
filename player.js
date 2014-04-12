@@ -2,6 +2,7 @@ function player(name, major){
 	this.name=name;
 	this.major=major;
 	
+
 };
 
 function baseStats(player){

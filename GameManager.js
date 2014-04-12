@@ -1,6 +1,6 @@
 function GameManager()
 {
-
+	// Private variables
 	var jsName;
 	var jsMajor;
 	var miner;
@@ -9,6 +9,7 @@ function GameManager()
 	var currWallet;
 	var currMarket;
 	var saveInterval;
+	// Start setup of game
 	begin();
 
 	var resetEl = document.getElementById("reset");
@@ -41,6 +42,7 @@ function GameManager()
 					{
 						modifyStat();
 					}
+
 	// Initializes game state
 	function begin()
 	{ //loading in read stats of Degree
@@ -100,7 +102,7 @@ function GameManager()
 		var tempMarket = localStorage.getItem('market');
 		if(tempMarket == null || tempMarket == undefined || tempMarket == "undefined" || tempMarket == "null")
 		{
-			this.currMarket = new market(10,10);
+			this.currMarket = new market(10,10, 1);
 		}
 		else
 		{
@@ -116,6 +118,7 @@ function GameManager()
 		this.trendUpdate = setInterval(function(){
 			this.currMarket.newTrend(this.gamer.googfu);
 		}, 5000);
+
 
 		// Start autosave, every 1/10 of second
 		// Set initial values on screen
@@ -163,25 +166,38 @@ function GameManager()
 	{
 		var buy = parseFloat(temp['buyValue']);
 		var sell = parseFloat(temp['sellValue']);
-
+		var trend = parseFloat(temp['trend']);
 		if(buy == null || buy == "null" || isNaN(buy))
 			buy = 10;
 		if(sell == null || sell == "null" || isNaN(sell))
 			sell = 10;
 
-		this.currMarket = new market(sell, buy);
+
+
+		this.currMarket = new market(sell, buy, trend);
 	}
 
 	function displayUpdate(){
+			// Show wallet values
 			amount.innerHTML = this.display;
 			dols.innerHTML   = this.currWallet.dollars.toFixed(2);
+
+			// Show miner values
 			delta.innerHTML  = this.miner.mineRate.toFixed(3);
+
+			// Show market values
 			sellVal.innerHTML = "$" + this.currMarket.sellValue.toFixed(2);
+
+			// Show player stats
 			document.getElementById("Hard").innerHTML = this.gamer.hardware;
 			document.getElementById("Soft").innerHTML = this.gamer.software;
 			document.getElementById("Alg").innerHTML = this.gamer.algo;
 			document.getElementById("Goog").innerHTML = this.gamer.googfu;
 
+			document.getElementById("mc1").innerHTML = 
+			"Basic BitCoin Miner $" + this.miner.getMinerPrice(100, this.gamer.hardware).toFixed(2) + " (+.005 BTC/s)";
+			document.getElementById("mc2").innerHTML =
+			"GPU++ BitCoin Miner $" + this.miner.getMinerPrice(250, this.gamer.hardware).toFixed(2) + " (+.020 BTC/s)";
 	}
 
 	function startMining()
@@ -221,10 +237,12 @@ function GameManager()
 
 	function upgradeMiner()
 	{
-			var price = parseInt(this.minerChoice.value);
+			var choice = parseInt(this.minerChoice.value);
+			var price = this.miner.getBasePrice(choice);
+			price = this.miner.getMinerPrice(price, this.gamer.hardware);
 			if(price <= this.currWallet.dollars)
 			{
-				var temp = this.miner.upgrade(price);
+				var temp = this.miner.upgrade(choice, this.gamer.hardware);
 				this.currWallet.dollars -= temp;
 			}
 
@@ -232,19 +250,21 @@ function GameManager()
 
 	function buyBitcoin()
 	{
-		if(this.currWallet.dollars >= this.currMarket.buyValue)
+		var amount = parseFloat(buyAmount.value);
+		if(this.currWallet.dollars >= (this.currMarket.buyValue * amount))
 		{
-			this.currWallet.dollars -= this.currMarket.buyValue;
-			this.currWallet.bitcoin += 1;
+			this.currWallet.dollars -= (this.currMarket.buyValue * amount);
+			this.currWallet.bitcoin += amount;
 		}
 	}
 
 	function sellBitcoin()
 	{
-		if(this.currWallet.bitcoin >= 1)
+		var amount = parseFloat(sellAmount.value);
+		if(this.currWallet.bitcoin >= amount)
 		{
-			this.currWallet.bitcoin -= 1;
-			this.currWallet.dollars += this.currMarket.sellValue;
+			this.currWallet.bitcoin -= amount;
+			this.currWallet.dollars += (this.currMarket.sellValue * amount);
 		}
 	}
 
