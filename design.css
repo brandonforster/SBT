@@ -1,3 +1,12 @@
+#header{
+	height: 50px;
+	border: solid 3px;
+
+	text-align: center;
+	font-size: 40px;
+	font-family: "Courier New", Courier, monospace;	
+}
+
 fieldset{
 	float: left;
 	font-family: "Courier New", Courier, monospace;

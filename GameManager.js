@@ -16,7 +16,7 @@ function GameManager()
 	var minerChoice = document.getElementById("minerChoice");
 	var buyButton = document.getElementById("buyBitcoin");
 	var sellButton = document.getElementById("sellBitcoin");
-
+	var upgradeStat = document.getElementById("statUpgrade");
 	// Set onclick for reset button
 	resetEl.onclick = function()
 					{
@@ -37,14 +37,26 @@ function GameManager()
 						sellBitcoin();
 					}
 
+	upgradeStat.onclick = function()
+					{
+						modifyStat();
+					}
 	// Initializes game state
 	function begin()
 	{ //loading in read stats of Degree
 		this.jsName = localStorage.getItem("name");
 		this.jsMajor = localStorage.getItem("major");
 
-		this.gamer = new player(this.jsName,this.jsMajor);
-		baseStats(this.gamer);
+		var hold = localStorage.getItem('gamer');
+		if(hold == null)
+		{
+			this.gamer = new player(this.jsName,this.jsMajor);
+			baseStats(this.gamer);
+		}
+		else
+		{
+			loadGamer(JSON.parse(hold));
+		}
 
 		document.getElementById("MAJOR").innerHTML = this.gamer.fullMajor;
 		document.getElementById("Hard").innerHTML = this.gamer.hardware;
@@ -57,6 +69,7 @@ function GameManager()
 		var temp = localStorage.getItem('playedBefore');
 		if(temp == null || temp == "false")
 		{
+			
 			alert("You have one mission. BitCoins.\n\nAre you a bad enough dude or dudette to ignore all your classes, real life responsibilities, and focus on one thing? Of course you are. You're an engineering student. Your task is to mine BitCoin all day. Everyday. Your goal is make a billion USD before you graduate.\n\nYour parent's always said you were \"good with computers\". This should be easy!");
 			localStorage.setItem('playedBefore', true);
 		}
@@ -120,6 +133,7 @@ function GameManager()
 		localStorage.setItem('wallet', JSON.stringify(this.currWallet));
 		localStorage.setItem('market', JSON.stringify(this.currMarket));
 		localStorage.setItem('miner', JSON.stringify(this.miner));
+		localStorage.setItem('gamer', JSON.stringify(this.gamer));
 	}
 
 	// Reset game (mostly for debugging)
@@ -131,6 +145,7 @@ function GameManager()
 		this.currMarket.sellValue = 10;
 		this.currMarket.buyValue = 10;
 		this.currMarket.trend = 1;
+		baseStats(this.gamer);
 		displayUpdate();
 	}
 
@@ -162,6 +177,11 @@ function GameManager()
 			dols.innerHTML   = this.currWallet.dollars.toFixed(2);
 			delta.innerHTML  = this.miner.mineRate.toFixed(3);
 			sellVal.innerHTML = "$" + this.currMarket.sellValue.toFixed(2);
+			document.getElementById("Hard").innerHTML = this.gamer.hardware;
+			document.getElementById("Soft").innerHTML = this.gamer.software;
+			document.getElementById("Alg").innerHTML = this.gamer.algo;
+			document.getElementById("Goog").innerHTML = this.gamer.googfu;
+
 	}
 
 	function startMining()
@@ -226,6 +246,46 @@ function GameManager()
 			this.currWallet.bitcoin -= 1;
 			this.currWallet.dollars += this.currMarket.sellValue;
 		}
+	}
+
+	function modifyStat()
+	{
+		var hold = parseInt(this.statChoice.value);
+
+		if(1000 <= this.currWallet.dollars)
+		{
+			switch(hold)
+			{
+				case(1):
+					this.gamer.hardware++;
+					this.currWallet.dollars -= 1000;
+					break;
+				case(2):
+					this.gamer.software++;
+					this.currWallet.dollars -= 1000;
+					break;
+				case(3):
+					this.gamer.algo++;
+					this.currWallet.dollars -= 1000;
+					break;
+				case(4):
+					this.gamer.googfu++;
+					this.currWallet.dollars -= 1000;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	function loadGamer(temp)
+	{
+		this.gamer = new player(temp['name'], temp['major']);
+		this.gamer.fullMajor= temp['fullMajor'];
+		this.gamer.hardware = parseInt(temp['hardware']);
+		this.gamer.software = parseInt(temp['software']);
+		this.gamer.algo     = parseInt(temp['algo']);
+		this.gamer.googfu   = parseInt(temp['googfu']);
 	}
 }
 
