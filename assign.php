@@ -152,7 +152,6 @@
 			<input type="button" id="statUpgrade" value="Upgrade!"/>
 		</fieldset>
 
-		<canvas id="priceGraph" height = 300 width = 500></canvas>
 	</div>
 
 
