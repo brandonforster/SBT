@@ -179,8 +179,8 @@ function GameManager()
 
 	function displayUpdate(){
 			// Show wallet values
-			amount.innerHTML = this.display;
-			dols.innerHTML   = this.currWallet.dollars.toFixed(2);
+			amount.innerHTML = this.currWallet.bitcoin.toFixed(3);
+			dols.innerHTML   = "$" + this.currWallet.dollars.toFixed(2);
 
 			// Show miner values
 			delta.innerHTML  = this.miner.mineRate.toFixed(3);
@@ -198,6 +198,13 @@ function GameManager()
 			"Basic BitCoin Miner $" + this.miner.getMinerPrice(100, this.gamer.hardware).toFixed(2) + " (+.005 BTC/s)";
 			document.getElementById("mc2").innerHTML =
 			"GPU++ BitCoin Miner $" + this.miner.getMinerPrice(250, this.gamer.hardware).toFixed(2) + " (+.020 BTC/s)";
+			document.getElementById("mc3").innerHTML =
+			"Level 3 BitCoin Miner $" + this.miner.getMinerPrice(1000, this.gamer.hardware).toFixed(2) + " (+.100 BTC/s)";
+			document.getElementById("mc4").innerHTML =
+			"Level 4 BitCoin Miner $" + this.miner.getMinerPrice(5000, this.gamer.hardware).toFixed(2) + " (+.750 BTC/s)";
+			document.getElementById("mc5").innerHTML =
+			"Level 5 BitCoin Miner $" + this.miner.getMinerPrice(25000, this.gamer.hardware).toFixed(2) + " (+4.000 BTC/s)";
+
 	}
 
 	function startMining()

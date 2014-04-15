@@ -1,13 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
+
 #header{
 	height: 50px;
-	border: solid 3px;
 
 	text-align: center;
 	font-size: 40px;
-	font-family: "Courier New", Courier, monospace;	
+	font-family: "Press Start 2P", Courier;	
 }
 
 fieldset{
+	width: 45%;
+	height: 150px;
 	float: left;
 	font-family: "Courier New", Courier, monospace;
 }
@@ -18,6 +21,10 @@ h1{
 
 p{
 	font-family: "Courier New", Courier, monospace;
+}
+
+td{
+	width: 70px;
 }
 
 canvas

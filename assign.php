@@ -41,19 +41,12 @@
 	</div>
 
 		<form>
-			<input type="button" onclick="newTest();" Value="JSTest"/> 
 			<span id="mineStart">
 				<input id ="mS" type="button" onclick="startMining();disableMineStart()" Value="Begin Mining Bitcoin!"/>
 			</span>
 			<img src="bcoin.gif" height="35" width="35">
 			<input type="button" id="reset" Value="Reset"/>
 		</form>
-
-	<script type="text/javascript">
-		function newTest(){
-			confirm("Thankfully JS is working "+currWallet.bitcoin+" "+currWallet.dollars);
-		}
-	</script>
 
 	<div id="FunNums">
 		<fieldset>
@@ -121,7 +114,11 @@
 				<select id="minerChoice">
 					<option value="-1">Select Item(s)</otpion>
 					<option id = "mc1" value="1">Basic BitCoin Miner $100.00 (+.005 BTC/s)</option>
-					<option id = "mc2" value="2">GPU++ BitCoin Miner $250.00 (+.010 BTC/s)</option>
+					<option id = "mc2" value="2">GPU++ BitCoin Miner $250.00 (+.020 BTC/s)</option>
+					<option id = "mc3" value="3">Level 3 BitCoin Miner $1000.00 (+.100 BTC/s)</option>
+					<option id = "mc4" value="4">Level 4 BitCoin Miner $5000.00 (+.750 BTC/s)</option>
+					<option id = "mc5" value="5">Level 5 BitCoin Miner $25000.00 (+4.000 BTC/s)</option>
+
 				</select>
 
 			</form>
