@@ -30,51 +30,44 @@
 	
 	</div>
 
-		<form>
-			<span id="mineStart">
-				<input id ="mS" type="button" onclick="startMining();disableMineStart()" Value="Begin Mining Bitcoin!"/>
-			</span>
-			<img src="bcoin.gif" height="35" width="35">
-			<input type="button" id="reset" Value="Reset"/>
-		</form>
+	<div id="infoValues">
+		<div id="walletDiv" class="info" title="This keeps track of the current amount of bitcoin and US dollars in your wallet.">
+			Wallet <br><br>
+			<span id="amount">0.000</span> BTC <br>
+			<span id="dols">250.00</span>
+		</div>
 
-	<div id="walletDiv">
-		Wallet <br><br>
-		<span id="amount">0.000</span> BTC <br>
-		<span id="dols">250.00</span>
+		<div id="minerDiv" class="info" title="This is how much bitcoin you gain every second.">
+			Minerate <br><br>
+			<span id="delta">0.000</span> BTC/s
+		</div>
+
+		<div id="sellerDiv" class="info" title="This is how much bitcoin you automatically sell every second.">
+			Sellrate <br><br>
+			<span id="sellRate">0.000</span> BTC/s
+		</div>
 	</div>
-
-	<div id="minerDiv">
-		Minerate <br><br>
-		<span id="delta">0.000</span> 
-	</div>
-
-	<div id="sellerDiv">
-		Sellrate <br><br>
-		<span id="sellRate">0.000</span>
-	</div>
-
-	<div id="market">
+	<div id="market" class="info">
 		<span id="marketDiv">
 			Market Value
 			<span id="sellVal">0.000</span>
 		</span>
 
-		<canvas id="graphCanvas" width="600" height="300"></canvas>
+		<canvas id="graphCanvas" width="600" height="425"></canvas>
 	</div>
 
-	<div id="playerStats">
+	<div id="playerStats" class="info">
 		<table>
 					<tr>
 						<th><div id='MAJOR'>MAJOR</div></th>
 					</tr>
 					<tr>
 						<th>Hardware: </th>
-						<td><div id='Hard'>num</div></td>
+						<td><div id='Hard' title="The hardware stat affects the price of miners.">num</div></td>
 					</tr>
 					<tr>
 						<th>Software: </th>
-						<td><div id='Soft'>num</div></td>
+						<td><div id='Soft' title="The software stat affects the price of auto-sellers.">num</div></td>
 					</tr>
 					<tr>
 						<th>Algorithms: </th>
@@ -82,12 +75,12 @@
 					</tr>
 					<tr>
 						<th>Google-Fu: </th>
-						<td><div id='Goog'>num</div></td>
+						<td><div id='Goog' title="The google-fu stat affects how likely the market price is to go up.">num</div></td>
 					</tr>
 				</table>
 	</div>
 	<div id="upgrades">
-		<div id="minerCSS">
+		<div id="minerCSS" class="upgradeCSS">
 			Miner Upgrades
 
 			<form>
@@ -100,17 +93,17 @@
 						<option id = "mc5" value="5">Level 5 BitCoin Miner $25000.00 (+4.000 BTC/s)</option>
 
 					</select>
-					<input type="button" id="minerUpgrade" Value="Buy!" onlclick=""/>
+					<input type="button" class="buttonCSS" id="minerUpgrade" Value="Buy!" onlclick=""/>
 			</form>
 		</div>
-		<div id="marketCSS">
+		<div id="marketCSS" class="upgradeCSS">
 			Bitcoin Market <br>
-			<input type="text" id="buyAmount" value="0"/>
-			<input type="button" id="buyBitcoin" Value="Buy Bitcoin!" onclick=""/>
-			<input type="text" id="sellAmount" value="0"/>
-			<input type="button" id="sellBitcoin" Value="Sell Bitcoin!" onclick=""/>
+			<input type="text" class="textBox" id="buyAmount" value="0"/>
+			<input type="button" class="buttonCSS" id="buyBitcoin" Value="Buy!" onclick=""/>
+			<input type="text" class="textBox" id="sellAmount" value="0"/>
+			<input type="button" class="buttonCSS" id="sellBitcoin" Value="Sell!" onclick=""/>
 		</div>
-		<div id="statCSS">
+		<div id="statCSS" class="upgradeCSS">
 			Stat Upgrades
 			<form>
 					<select id="statChoice">
@@ -120,11 +113,12 @@
 						<option value="3"> Algorithms +1 ($1000.00) </option>
 						<option value="4"> Google-Fu +1 ($1000.00) </option>
 					</select>
-					<input type="button" id="statUpgrade" value="Upgrade!"/>
+					<input type="button" class="buttonCSS"  id="statUpgrade" value="Upgrade!"/>
 			</form>
 
 			
 		</div>
+		<div id="aSCSS" class="upgradeCSS">
 		Auto-Sellers
 
 		<form>
@@ -136,9 +130,10 @@
 					<option id = "sc4" value="4">Level 4 Seller $5000.00 (Sells .750 BTC/s)</option>
 					<option id = "sc5" value="5">Level 5 Seller $25000.00 (Sells 4.000 BTC/s)</option>
 				</select>
-				<input type="button" id="sellerUpgrade" value="Purchase!"/>
+				<input type="button" class="buttonCSS"  id="sellerUpgrade" value="Purchase!"/>
 			</form>
-
-	</div>
+		</div>
+		<input type="button" class="buttonCSS"  id="reset" Value="Reset"/>
+		</div>
 
 </html>

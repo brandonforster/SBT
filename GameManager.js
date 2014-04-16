@@ -141,7 +141,7 @@ function GameManager()
 		amount.innerHTML = this.display;
 
 		startMining();
-		disableMineStart();
+
 	}
 
 	function initialGraph()
@@ -168,7 +168,7 @@ function GameManager()
   			context.lineTo(x, canvas.height);
 		}
 
-		for (var y = 0.5; y < 300; y += 10) {
+		for (var y = 0.5; y < 425; y += 10) {
   			context.moveTo(0, y);
   			context.lineTo(canvas.width, y);
 		}
@@ -439,8 +439,4 @@ function GameManager()
 		this.gamer.algo     = parseInt(temp['algo']);
 		this.gamer.googfu   = parseInt(temp['googfu']);
 	}
-}
-
-function disableMineStart(){
-		document.getElementById("mineStart").innerHTML = "Currently Mining!";
 }
