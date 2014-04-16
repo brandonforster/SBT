@@ -18,13 +18,13 @@ function market(sellVal, buyVal, trend, prices, index)
 			this.sellValue = 1;
 		}
 		
-		this.buyValue  = this.buyValue  + this.trend;
+		this.buyVal
+		ue  = this.buyValue  + this.trend;
 		if(this.buyValue < 1)
 		{
 			this.buyValue = 1;
 		}	
 
-		console.log(this.currIndex);
 		this.prices[this.currIndex] = price;
 		this.currIndex = (this.currIndex + 1) % 300;
 	}

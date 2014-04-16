@@ -1,0 +1,33 @@
+          __,,,,_
+          _ __..-;''`--/'/ /.',-`-.
+      (`/' ` |  \ \ \\ / / / / .-'/`,_
+     /'`\ \   |  \ | \| // // / -.,/_,'-,
+    /<7' ;  \ \  | ; ||/ /| | \/    |`-/,/-.,_,/')
+   /  _.-, `,-\,__|  _-| / \ \/|_/  |    '-/.;.\'
+   `-`  f/ ;      / __/ \__ `/ |__/ |
+        `-'      |  -| =|\_  \  |-' |
+              __/   /_..-' `  ),'  //
+            ((__.-'((___..-'' \__.'
+
+
+
+
+/* TEAM */
+Team Tigers
+
+Dylan Davidson
+Adam Bouters
+William Corlett
+Phillip Rajala
+Adrian Gilliam
+Brandon Forster
+
+/* THANKS */
+University of Central Florida
+Professor Sarah Angell
+ascii-art.de (for the Tiger art)
+
+/* SITE */
+Last Update: 2014/04/16
+Languages: HTML5, CSS3, Javascript
+Software: Sublime Text 2, XAMPP, Github and Git

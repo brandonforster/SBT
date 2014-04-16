@@ -132,8 +132,22 @@
 				</select>
 				<input type="button" class="buttonCSS"  id="sellerUpgrade" value="Purchase!"/>
 			</form>
-		</div>
 		<input type="button" class="buttonCSS"  id="reset" Value="Reset"/>
 		</div>
+		</div>
+	</div>
+	
+
+	<div id="footer">
+		<div id="humans">
+			<a href="humans.txt"> Humans </a>
+		</div>
+		<div id="document">
+			<a href="documentation.html"> Documentation </a>
+		</div>
+		<div id="github">
+			<a href="https://github.com/brandonforster/SBT"> Github </a>
+		</div>
+	</div>
 
 </html>

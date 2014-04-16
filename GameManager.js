@@ -133,6 +133,9 @@ function GameManager()
 			this.currMarket.newTrend(this.gamer.googfu);
 		}, 5000);
 
+		setInterval(function(){
+			randomEvent();
+		}, 60000);
 
 		// Start autosave, every 1/10 of second
 		// Set initial values on screen
@@ -144,6 +147,25 @@ function GameManager()
 
 	}
 
+	function randomEvent()
+	{
+		var ran = Math.random();
+		ran *= (1 +(this.gamer.algo/20.0));
+
+		console.log(ran);
+		// Roughly 3% of market crash
+		if(ran > 0.3 && ran < 0.33)
+		{
+			console.log("Crash!");
+			if(this.currMarket.sellValue > 201)
+			{
+				this.currMarket.sellValue -= 200;
+				this.currMarket.buyValue -= 200;
+			}
+		}
+
+
+	}
 	function initialGraph()
 	{
 		var canvas = document.getElementById("graphCanvas");
@@ -177,23 +199,39 @@ function GameManager()
 		context.stroke();
 		context.beginPath();
 
-		context.moveTo(0, this.currMarket.prices[0]);
+
+		var maxVal = findMaxVal();
+		maxVal += 20;
+		console.log(maxVal);
+		context.moveTo(0, this.currMarket.prices[this.currMarket.currIndex]);
 		var j = 0;
 		context.strokeStyle = "#000";
 		for(var i = this.currMarket.currIndex; i < 300; i++)
 		{
-			context.lineTo(j, canvas. height - this.currMarket.prices[i]);
+			context.lineTo(j, canvas.height - (canvas.height * (this.currMarket.prices[i]/maxVal)));
+			console.log((canvas.height * (this.currMarket.prices[i]/maxVal)));
 			context.stroke();
 			j+= 2;
 		}
 		for(var i = 0; i  < this.currMarket.currIndex; i++)
 		{
 
-			context.lineTo(j, canvas.height - this.currMarket.prices[i]);
+			context.lineTo(j, canvas.height - (canvas.height * (this.currMarket.prices[i]/maxVal)));
 			context.stroke();
 			j+=2;
 		}
 	}
+
+	function findMaxVal()
+	{
+		var currMax = 0;
+		for(var i = 0; i < 300; i++)
+		{
+			currMax = Math.max(currMax, this.currMarket.prices[i]);
+		}
+		return currMax;
+	}
+
 	// Stores data in localStorage
 	function save()
 	{

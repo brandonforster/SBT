@@ -6,6 +6,11 @@ body{
 	background-color: #2c3e50;
 }
 
+a{
+	text-decoration: none;
+	color: #ecf0f1;
+}
+
 #header{
 	position: fixed;
 	width: 100%;
@@ -120,7 +125,8 @@ body{
 	margin-top: 50px;
 	margin-left: 50px;
 	margin-bottom: 200px;
-	padding-top: 25px;s
+	padding-top: 25px;
+	padding-bottom: 25px;
 	font-size: 15px;
 	font-family: "Press Start 2P", Courier;	
 	text-align: center;
@@ -198,8 +204,15 @@ fieldset{
 }
 
 select {
+	margin-top: 25px;
+	margin-bottom: 25px;
     background: #FFF url('down_arrow.png') no-repeat right;
     background: #FFF url('down_arrow.png') no-repeat right);
+	background-color: #2c3e50;
+	font-family: "Press Start 2P", Courier;	
+	color: #ecf0f1;
+	text-align: center;
+	border: none;
     appearance:none;
     -webkit-appearance:none; 
     -moz-appearance: none;
@@ -210,6 +223,51 @@ select {
 }
 
 .textBox{
+	width: 50%;
+	margin-top: 20px;
+	border: none;
+	font-family: "Press Start 2P", Courier;	
+	background-color: #2c3e50;
+	color: #ecf0f1;
+	text-align: center;
 	width: 72%;
     height: 30px;
+}
+
+#footer
+{
+	float: left;
+	font-family: "Press Start 2P", Courier;	
+	padding-top: 20px;
+	height: 40px;
+	color: #ecf0f1;
+	width: 100%;
+	background-color: #e74c3c;
+}
+
+#humans
+{
+	float: left;
+	margin-left: 50px;
+}
+
+#document{
+	float: left;
+	margin-left: 50px;
+}
+
+#github{
+	float: left;
+	margin-left: 50px;
+}
+
+#docList{
+	margin-top: 100px;
+	color: #ecf0f1;
+	font-size: 30px;
+	font-family: "Press Start 2P", Courier;	
+}
+
+li{
+	margin-top: 20px;
 }
