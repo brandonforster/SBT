@@ -9,6 +9,7 @@ function GameManager()
 	var currWallet;
 	var currMarket;
 	var saveInterval;
+	var currSeller;
 	// Start setup of game
 	begin();
 
@@ -18,6 +19,8 @@ function GameManager()
 	var buyButton = document.getElementById("buyBitcoin");
 	var sellButton = document.getElementById("sellBitcoin");
 	var upgradeStat = document.getElementById("statUpgrade");
+	var sellerUpgrade = document.getElementById("sellerUpgrade");
+	var sellerChoice = document.getElementById("sellerChoice");
 	// Set onclick for reset button
 	resetEl.onclick = function()
 					{
@@ -41,6 +44,10 @@ function GameManager()
 	upgradeStat.onclick = function()
 					{
 						modifyStat();
+					}
+	sellerUpgrade.onclick = function()
+					{
+						upgradeSeller();
 					}
 
 	// Initializes game state
@@ -137,6 +144,7 @@ function GameManager()
 		localStorage.setItem('market', JSON.stringify(this.currMarket));
 		localStorage.setItem('miner', JSON.stringify(this.miner));
 		localStorage.setItem('gamer', JSON.stringify(this.gamer));
+		localStorage.setItem('seller', JSON.stringify(this.currSeller));
 	}
 
 	// Reset game (mostly for debugging)
@@ -184,7 +192,7 @@ function GameManager()
 
 			// Show miner values
 			delta.innerHTML  = this.miner.mineRate.toFixed(3);
-
+			sellRate.innerHTML = this.currSeller.sellRate.toFixed(3);
 			// Show market values
 			sellVal.innerHTML = "$" + this.currMarket.sellValue.toFixed(2);
 
@@ -205,6 +213,17 @@ function GameManager()
 			document.getElementById("mc5").innerHTML =
 			"Level 5 BitCoin Miner $" + this.miner.getMinerPrice(25000, this.gamer.hardware).toFixed(2) + " (+4.000 BTC/s)";
 
+			document.getElementById("sc1").innerHTML = 
+			"Level 1 Seller $" + this.currSeller.getSellerPrice(100, this.gamer.software).toFixed(2) + " (Sells .005 BTC/s)";
+			document.getElementById("sc2").innerHTML =
+			"Level 2 Seller $" + this.currSeller.getSellerPrice(250, this.gamer.software).toFixed(2) + " (Sells .020 BTC/s)";
+			document.getElementById("sc3").innerHTML =
+			"Level 3 Seller $" + this.currSeller.getSellerPrice(1000, this.gamer.software).toFixed(2) + " (Sells .100 BTC/s)";
+			document.getElementById("sc4").innerHTML =
+			"Level 4 Seller $" + this.currSeller.getSellerPrice(5000, this.gamer.software).toFixed(2) + " (Sells .750 BTC/s)";
+			document.getElementById("sc5").innerHTML =
+			"Level 5 Seller $" + this.currSeller.getSellerPrice(25000, this.gamer.software).toFixed(2) + " (Sells 4.000 BTC/s)";
+
 	}
 
 	function startMining()
@@ -223,12 +242,24 @@ function GameManager()
 			loadMiner(tempMiner);
 		}
 
+		var tempSeller = localStorage.getItem('seller');
+		if(tempSeller == null || tempMiner == "null")
+		{
+			this.currSeller = new seller(0);
+		}
+		else
+		{
+			tempSeller = JSON.parse(tempSeller);
+			loadSeller(tempSeller);
+		}
+
 		setInterval(function(){
-
-   			this.currWallet.bitcoin += this.miner.mineRate;
-   			this.display = this.currWallet.bitcoin.toString();
-			this.display = this.display.substring(0,5);
-
+			this.currWallet.bitcoin += this.miner.mineRate;
+   			if(this.currWallet.bitcoin >= this.currSeller.sellRate)
+   			{
+   				this.currWallet.bitcoin -= this.currSeller.sellRate;
+   				this.currWallet.dollars += (this.currSeller.sellRate * this.currMarket.sellValue);
+   			}
    			displayUpdate();
 		},1000);
 
@@ -242,6 +273,12 @@ function GameManager()
 		this.miner = new mine(mR);
 	}
 
+	function loadSeller(temp)
+	{
+		var sR = parseFloat(temp['sellRate']);
+		this.currSeller = new seller(sR);
+	}
+
 	function upgradeMiner()
 	{
 			var choice = parseInt(this.minerChoice.value);
@@ -253,6 +290,18 @@ function GameManager()
 				this.currWallet.dollars -= temp;
 			}
 
+	}
+
+	function upgradeSeller()
+	{
+		var choice = parseInt(this.sellerChoice.value);
+		var price = this.currSeller.getBasePrice(choice);
+		price = this.currSeller.getSellerPrice(price, this.gamer.software);
+		if(price <= this.currWallet.dollars)
+		{
+			var temp = this.currSeller.upgrade(choice, this.gamer.software);
+			this.currWallet.dollars -= temp;
+		}	
 	}
 
 	function buyBitcoin()

@@ -1,11 +1,22 @@
 @import url(http://fonts.googleapis.com/css?family=Press+Start+2P);
 
-#header{
-	height: 50px;
+body{
+	margin: 0;
+	padding: 0;
+	background-color: #009999;
+}
 
+#header{
+	width: 100%;
+	height: 50px;
+	margin-top: -25px;
+	padding-top: 10px;
+	background-color: #9FEE00;
 	text-align: center;
 	font-size: 40px;
+	color: black;
 	font-family: "Press Start 2P", Courier;	
+	position: fixed;
 }
 
 fieldset{

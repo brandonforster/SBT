@@ -4,10 +4,11 @@
 		<noscript> <strong style="background-color:red"> STUDENT: CTU requires JavcaScript to be enables to be fully functional.</strong> </noscript>
 		
 		<script type="text/javascript" src="player.js" ></script>
+		<script type="text/javascript" src="GameManager.js" ></script>
 		<script type="text/javascript" src="mine.js" ></script>
+		<script type="text/javascript" src="seller.js" ></script>
 		<script type="text/javascript" src="wallet.js" ></script>
-		<script type="text/javascript" src="market.js" ></script>		
-		<script type="text/javascript" src="GameManager.js" ></script>	
+		<script type="text/javascript" src="market.js" ></script>			
 		<script type="text/javascript">
 			//transferring over the gamer stuff is currently working
 			//Local Storage works beautifully
@@ -71,6 +72,12 @@
 					<tr>
 						<th>Minerate</th>
 						<td><div id='delta'>0.000</div></td></td>
+						<td>BTC/s</td>
+						<td>-----</td>
+					</tr>
+					<tr>
+						<th>Sellrate</th>
+						<td><div id='sellRate'>0.000</div></td></td>
 						<td>BTC/s</td>
 						<td>-----</td>
 					</tr>
@@ -149,6 +156,22 @@
 			<input type="button" id="statUpgrade" value="Upgrade!"/>
 		</fieldset>
 
+
+		<fieldset>
+			<legend>Auto-Sellers</legend>
+			<form>
+				<select id="sellerChoice">
+					<option value="-1">Select Auto-Seller</option>
+					<option id = "sc1" value="1">Level 1 Seller $100.00 (Sells .005 BTC/s)</option>
+					<option id = "sc2" value="2">Level 2 Seller $250.00 (Sells .020 BTC/s)</option>
+					<option id = "sc3" value="3">Level 3 Seller $1000.00 (Sells .100 BTC/s)</option>
+					<option id = "sc4" value="4">Level 4 Seller $5000.00 (Sells .750 BTC/s)</option>
+					<option id = "sc5" value="5">Level 5 Seller $25000.00 (Sells 4.000 BTC/s)</option>
+				</select>
+			</form>
+
+			<input type="button" id="sellerUpgrade" value="Purchase!"/>
+		</fieldset>
 	</div>
 
 
