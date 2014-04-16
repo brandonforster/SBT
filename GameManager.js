@@ -10,6 +10,7 @@ function GameManager()
 	var currMarket;
 	var saveInterval;
 	var currSeller;
+	var graphX;
 	// Start setup of game
 	begin();
 
@@ -109,7 +110,11 @@ function GameManager()
 		var tempMarket = localStorage.getItem('market');
 		if(tempMarket == null || tempMarket == undefined || tempMarket == "undefined" || tempMarket == "null")
 		{
-			this.currMarket = new market(10,10, 1);
+			var tempPrices = new Array();
+			for(var i = 0; i < 300; i++)
+				tempPrices[i] = 10;
+
+			this.currMarket = new market(10,10, 1, tempPrices, 0);
 		}
 		else
 		{
@@ -117,9 +122,11 @@ function GameManager()
 			loadMarket(tempMarket);
 		}
 
+		initialGraph();
 
 		this.marketUpdate = setInterval(function(){
-			this.currMarket.updatePrice();
+			this.currMarket.updatePrice(this.currMarket.sellValue);
+			updateGraph();
 		}, 1000);
 
 		this.trendUpdate = setInterval(function(){
@@ -137,6 +144,56 @@ function GameManager()
 		disableMineStart();
 	}
 
+	function initialGraph()
+	{
+		var canvas = document.getElementById("graphCanvas");
+		var context = canvas.getContext("2d");
+		context.moveTo(0, this.currMarket.prices[0]);
+		
+		for(var i = 0; i < 300; i++)
+		{
+			context.lineTo(i, this.currMarket.prices[i]);
+			context.stroke();
+		}
+	}
+
+	function updateGraph()
+	{
+		var canvas = document.getElementById("graphCanvas");
+		canvas.width = canvas.width;
+		var context = canvas.getContext("2d");
+		context.beginPath();
+		for (var x = 0.5; x < 600; x += 10) {
+  			context.moveTo(x, 0);
+  			context.lineTo(x, canvas.height);
+		}
+
+		for (var y = 0.5; y < 300; y += 10) {
+  			context.moveTo(0, y);
+  			context.lineTo(canvas.width, y);
+		}
+
+		context.strokeStyle = "#eee";
+		context.stroke();
+		context.beginPath();
+
+		context.moveTo(0, this.currMarket.prices[0]);
+		var j = 0;
+		context.strokeStyle = "#000";
+		for(var i = this.currMarket.currIndex; i < 300; i++)
+		{
+			context.lineTo(j, canvas. height - this.currMarket.prices[i]);
+			context.stroke();
+			j+= 2;
+		}
+		for(var i = 0; i  < this.currMarket.currIndex; i++)
+		{
+
+			context.lineTo(j, canvas.height - this.currMarket.prices[i]);
+			context.stroke();
+			j+=2;
+		}
+	}
 	// Stores data in localStorage
 	function save()
 	{
@@ -156,6 +213,7 @@ function GameManager()
 		this.currMarket.sellValue = 10;
 		this.currMarket.buyValue = 10;
 		this.currMarket.trend = 1;
+		this.currSeller.sellRate = 0;
 		baseStats(this.gamer);
 		displayUpdate();
 	}
@@ -180,9 +238,27 @@ function GameManager()
 		if(sell == null || sell == "null" || isNaN(sell))
 			sell = 10;
 
+		var tempPrices = new Array();
+		
+		if(temp.prices == null || temp.prices == undefined || temp.prices == "undefined")
+		{
 
-
-		this.currMarket = new market(sell, buy, trend);
+			for(var i = 0; i<300; i++)
+			{
+				tempPrices[i] = 10;
+			}
+		}
+		else
+		{
+			for(var i in temp.prices)
+			{
+				tempPrices[i] = temp.prices[i];
+			}
+		}
+		var currIndex = parseInt(temp['currIndex']);
+		if(isNaN(currIndex))
+			currIndex = 0;
+		this.currMarket = new market(sell, buy, trend, tempPrices, currIndex);
 	}
 
 	function displayUpdate(){
