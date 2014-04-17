@@ -2,7 +2,10 @@ function player(name, major){
 	this.name=name;
 	this.major=major;
 	
-
+	this.getStatUpgradePrice = function(statVal)
+	{
+		return (10000 * (10 * (statVal/5.0)));
+	}
 };
 
 function baseStats(player){

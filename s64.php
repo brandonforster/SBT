@@ -22,23 +22,23 @@
 	</head>
 
 	<body>
+		<div id="mainBlock">
+			<h2 style="background-color:orange"> <?php echo $_POST["userName"]; ?>'s CTU Portal </h2>
+		
+			Welcome <strong><?php echo $_POST["userName"]; ?> </strong><br>		
+			We wish you luck in your studies of <?php echo $_POST["majors"]; ?>! <br>
+		
+			<br>
 
-		<h2 style="background-color:orange"> <?php echo $_POST["userName"]; ?>'s CTU Portal </h2>
-	
-		Welcome <strong><?php echo $_POST["userName"]; ?> </strong><br>		
-		We wish you luck in your studies of <?php echo $_POST["majors"]; ?>! <br>
-	
-		<br>
-
-		<a style="background-color:red">You have <strong>1</strong> assignment(s) due </a>
-
+			<a style="background-color:red">You have <strong>1</strong> assignment(s) due </a>
+		</div>
 	<div>
 		<form action = "assign.php" method="POST"> <!--havent figured out the true action here-->
 			<input type="submit" Value="Begin My Assignment(s)"/>
 		</form>	
 
-		<form action="sb64.html">
-			<input type="submit" Value="LogOut">
+		<form>
+			<input type="button" Value="Log Out" onclick="errorMessage()">
 			<input type="button" onclick="jsTest();" Value="My CTU Profile"/> 
 		</form>
 	</div>
@@ -52,6 +52,15 @@
 	</body>
 
 	<script type="text/javascript">
+		function errorMessage()
+		{
+			var mainBlock = document.getElementById("mainBlock");
+			var elem = document.createElement("p");
+			elem.innerHTML = "Error: You must complete assignments before logging out.";
+			elem.id = "error";
+			elem.color = "red";
+			mainBlock.appendChild(elem);			
+		}
 		function jsTest(){
 			//var jsName = "<?php echo $_POST["userName"]; ?>"; 
 			//var jsMajor =  "<?php echo $_POST["majors"]; ?>";

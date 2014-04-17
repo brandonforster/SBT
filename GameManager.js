@@ -130,7 +130,7 @@ function GameManager()
 		}, 1000);
 
 		this.trendUpdate = setInterval(function(){
-			this.currMarket.newTrend(this.gamer.googfu);
+			this.currMarket.newTrend(this.gamer.algo);
 		}, 5000);
 
 		setInterval(function(){
@@ -150,9 +150,7 @@ function GameManager()
 	function randomEvent()
 	{
 		var ran = Math.random();
-		ran *= (1 +(this.gamer.algo/20.0));
-
-		console.log(ran);
+		ran *= (1 +(this.gamer.googfu/20.0));
 		// Roughly 3% of market crash
 		if(ran > 0.3 && ran < 0.33)
 		{
@@ -162,6 +160,21 @@ function GameManager()
 				this.currMarket.sellValue -= 200;
 				this.currMarket.buyValue -= 200;
 			}
+		}
+		else if(ran > 0.4 && ran < 0.45)
+		{
+			console.log("Crash!");
+			if(this.currMarket.sellValue > 101)
+			{
+				this.currMarket.sellValue -= 100;
+				this.currMarket.buyValue -= 100;
+			}
+		}
+		else if(ran > 0.9 && ran < 0.95)
+		{
+			console.log("Spike!");
+			this.currMarket.sellValue += 100;
+			this.currMarket.buyValue += 100;
 		}
 
 
@@ -201,15 +214,14 @@ function GameManager()
 
 
 		var maxVal = findMaxVal();
-		maxVal += 20;
-		console.log(maxVal);
+		maxVal += 200;
 		context.moveTo(0, this.currMarket.prices[this.currMarket.currIndex]);
 		var j = 0;
 		context.strokeStyle = "#000";
 		for(var i = this.currMarket.currIndex; i < 300; i++)
 		{
 			context.lineTo(j, canvas.height - (canvas.height * (this.currMarket.prices[i]/maxVal)));
-			console.log((canvas.height * (this.currMarket.prices[i]/maxVal)));
+	
 			context.stroke();
 			j+= 2;
 		}
@@ -338,6 +350,14 @@ function GameManager()
 			document.getElementById("sc5").innerHTML =
 			"Level 5 Seller $" + this.currSeller.getSellerPrice(25000, this.gamer.software).toFixed(2) + " (Sells 4.000 BTC/s)";
 
+			document.getElementById("su1").innerHTML = 
+			"Hardware +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.hardware).toFixed(2) + ")";
+			document.getElementById("su2").innerHTML = 
+			"Software +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.software).toFixed(2) + ")";
+			document.getElementById("su3").innerHTML = 
+			"Algorithms +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.algo).toFixed(2) + ")";
+			document.getElementById("su4").innerHTML = 
+			"Google-Fu +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.googfu).toFixed(2) + ")";
 	}
 
 	function startMining()
@@ -403,6 +423,20 @@ function GameManager()
 				var temp = this.miner.upgrade(choice, this.gamer.hardware);
 				this.currWallet.dollars -= temp;
 			}
+			else
+			{
+				var mark = document.getElementById("minerCSS");
+				var error = document.createElement("p");
+				error.innerHTML = "You do not have that much money!"
+				error.id = "err";
+				mark.appendChild(error);
+				setTimeout(function()
+				{
+					var hold = document.getElementById("minerCSS");
+					var del = document.getElementById("err");
+					hold.removeChild(del);
+				}, 3000);
+			}
 
 	}
 
@@ -415,7 +449,21 @@ function GameManager()
 		{
 			var temp = this.currSeller.upgrade(choice, this.gamer.software);
 			this.currWallet.dollars -= temp;
-		}	
+		}
+		else
+		{
+			var mark = document.getElementById("aSCSS");
+			var error = document.createElement("p");
+			error.innerHTML = "You do not have that much money!"
+			error.id = "err";
+			mark.appendChild(error);
+			setTimeout(function()
+			{
+				var hold = document.getElementById("aSCSS");
+				var del = document.getElementById("err");
+				hold.removeChild(del);
+			}, 3000);	
+		}
 	}
 
 	function buyBitcoin()
@@ -425,6 +473,21 @@ function GameManager()
 		{
 			this.currWallet.dollars -= (this.currMarket.buyValue * amount);
 			this.currWallet.bitcoin += amount;
+		}
+		else
+		{
+			var mark = document.getElementById("marketCSS");
+			var error = document.createElement("p");
+			error.innerHTML = "You do not have that much money!"
+			error.id = "err";
+			mark.appendChild(error);
+			setTimeout(function()
+			{
+				var hold = document.getElementById("marketCSS");
+				var del = document.getElementById("err");
+				hold.removeChild(del);
+			}, 3000);
+
 		}
 	}
 
@@ -436,35 +499,133 @@ function GameManager()
 			this.currWallet.bitcoin -= amount;
 			this.currWallet.dollars += (this.currMarket.sellValue * amount);
 		}
+		else
+		{
+			var mark = document.getElementById("marketCSS");
+
+			var error = document.createElement("p");
+			error.innerHTML = "You do not have that much bitcoin!";
+			error.id = "err";
+			mark.appendChild(error);
+			setTimeout(function()
+			{
+				var hold = document.getElementById("marketCSS");
+				var del = document.getElementById("err");
+				hold.removeChild(del);
+			}, 3000);
+		}
 	}
 
 	function modifyStat()
 	{
 		var hold = parseInt(this.statChoice.value);
-
-		if(1000 <= this.currWallet.dollars)
+		var errorFlag = 0;
+		switch(hold)
 		{
-			switch(hold)
-			{
-				case(1):
-					this.gamer.hardware++;
-					this.currWallet.dollars -= 1000;
-					break;
-				case(2):
+			case(1):
+				if(this.gamer.hardware < 10)
+				{
+					if(this.gamer.getStatUpgradePrice(this.gamer.hardware) <= this.currWallet.dollars)
+					{
+						this.gamer.hardware++;
+						this.currWallet.dollars -= this.gamer.getStatUpgradePrice(this.gamer.hardware);
+					}
+					else
+					{
+						errorFlag = 1;
+					}
+				}
+				else
+				{
+					errorFlag = 2;
+				}
+				break;
+			case(2):
+				if(this.gamer.software < 10)
+				{
+					if(this.gamer.getStatUpgradePrice(this.gamer.software) <= this.currWallet.dollars)
+					{
 					this.gamer.software++;
-					this.currWallet.dollars -= 1000;
-					break;
-				case(3):
+					this.currWallet.dollars -= this.gamer.getStatUpgradePrice(this.gamer.software);
+					}
+					else
+					{
+						errorFlag = 1;
+					}
+				}
+				else
+				{
+					errorFlag = 2;
+				}
+				break;
+			case(3):
+				if(this.gamer.algo < 10)
+				{
+					if(this.gamer.getStatUpgradePrice(this.gamer.algo) <= this.currWallet.dollars)
+					{
 					this.gamer.algo++;
-					this.currWallet.dollars -= 1000;
-					break;
-				case(4):
+					this.currWallet.dollars -= this.gamer.getStatUpgradePrice(this.gamer.algo);
+					}
+					else
+					{
+						errorFlag = 1;
+					}
+				}
+				else
+				{
+					errorFlag = 2;
+				}
+				break;
+			case(4):
+				if(this.gamer.googfu < 10){
+					if(this.gamer.getStatUpgradePrice(this.gamer.googfu) <= this.currWallet.dollars)
+					{
 					this.gamer.googfu++;
-					this.currWallet.dollars -= 1000;
-					break;
-				default:
-					break;
-			}
+					this.currWallet.dollars -= this.gamer.getStatUpgradePrice(this.gamer.googfu);
+					}
+					else
+					{
+						errorFlag = 1;
+					}	
+				}
+				else
+				{
+					errorFlag = 2;
+				}
+				break;
+			default:
+				break;
+		}
+
+		if(errorFlag === 1)
+		{
+			var mark = document.getElementById("statCSS");
+
+			var error = document.createElement("p");
+			error.innerHTML = "You do not have that much money!";
+			error.id = "err";
+			mark.appendChild(error);
+			setTimeout(function()
+			{
+				var hold = document.getElementById("statCSS");
+				var del = document.getElementById("err");
+				hold.removeChild(del);
+			}, 3000);
+		}
+		else if(errorFlag === 2)
+		{
+			var mark = document.getElementById("statCSS");
+
+			var error = document.createElement("p");
+			error.innerHTML = "10 is the maximum stat level!";
+			error.id = "err";
+			mark.appendChild(error);
+			setTimeout(function()
+			{
+				var hold = document.getElementById("statCSS");
+				var del = document.getElementById("err");
+				hold.removeChild(del);
+			}, 3000);
 		}
 	}
 

@@ -33,7 +33,7 @@
 	<div id="infoValues">
 		<div id="walletDiv" class="info" title="This keeps track of the current amount of bitcoin and US dollars in your wallet.">
 			Wallet <br><br>
-			<span id="amount">0.000</span> BTC <br>
+			<span id="amount">0.000</span> BTC <br><nr>
 			<span id="dols">250.00</span>
 		</div>
 
@@ -47,38 +47,7 @@
 			<span id="sellRate">0.000</span> BTC/s
 		</div>
 	</div>
-	<div id="market" class="info">
-		<span id="marketDiv">
-			Market Value
-			<span id="sellVal">0.000</span>
-		</span>
 
-		<canvas id="graphCanvas" width="600" height="425"></canvas>
-	</div>
-
-	<div id="playerStats" class="info">
-		<table>
-					<tr>
-						<th><div id='MAJOR'>MAJOR</div></th>
-					</tr>
-					<tr>
-						<th>Hardware: </th>
-						<td><div id='Hard' title="The hardware stat affects the price of miners.">num</div></td>
-					</tr>
-					<tr>
-						<th>Software: </th>
-						<td><div id='Soft' title="The software stat affects the price of auto-sellers.">num</div></td>
-					</tr>
-					<tr>
-						<th>Algorithms: </th>
-						<td><div id='Alg'>num</div></td>
-					</tr>
-					<tr>
-						<th>Google-Fu: </th>
-						<td><div id='Goog' title="The google-fu stat affects how likely the market price is to go up.">num</div></td>
-					</tr>
-				</table>
-	</div>
 	<div id="upgrades">
 		<div id="minerCSS" class="upgradeCSS">
 			Miner Upgrades
@@ -108,10 +77,10 @@
 			<form>
 					<select id="statChoice">
 						<option value="-1">Select Stat to Upgrade</option>
-						<option value="1"> Hardware +1 ($1000.00) </option>
-						<option value="2"> Software +1 ($1000.00) </option>
-						<option value="3"> Algorithms +1 ($1000.00) </option>
-						<option value="4"> Google-Fu +1 ($1000.00) </option>
+						<option id="su1" value="1"> Hardware +1 ($1000.00) </option>
+						<option id="su2" value="2"> Software +1 ($1000.00) </option>
+						<option id="su3" value="3"> Algorithms +1 ($1000.00) </option>
+						<option id="su4" value="4"> Google-Fu +1 ($1000.00) </option>
 					</select>
 					<input type="button" class="buttonCSS"  id="statUpgrade" value="Upgrade!"/>
 			</form>
@@ -132,10 +101,45 @@
 				</select>
 				<input type="button" class="buttonCSS"  id="sellerUpgrade" value="Purchase!"/>
 			</form>
+		</div>
 		<input type="button" class="buttonCSS"  id="reset" Value="Reset"/>
 		</div>
-		</div>
 	</div>
+	
+
+	<div id="playerStats" class="info">
+		<table>
+					<tr>
+						<th><div id='MAJOR'>MAJOR</div></th>
+					</tr>
+					<tr>
+						<th>Hardware: </th>
+						<td><div id='Hard' title="The hardware stat affects the price of miners.">num</div></td>
+					</tr>
+					<tr>
+						<th>Software: </th>
+						<td><div id='Soft' title="The software stat affects the price of auto-sellers.">num</div></td>
+					</tr>
+					<tr>
+						<th>Algorithms: </th>
+						<td><div id='Alg' title="The algorithms stat affects how likely the market is to go up.">num</div></td>
+					</tr>
+					<tr>
+						<th>Google-Fu: </th>
+						<td><div id='Goog' title="The google-fu stat affects the chance of random events.">num</div></td>
+					</tr>
+				</table>
+	</div>
+
+	<div id="market" class="info">
+		<span id="marketDiv">
+			Market Value
+			<span id="sellVal">0.000</span>
+		</span>
+
+		<canvas id="graphCanvas" width="600" height="425"></canvas>
+	</div>
+
 	
 
 	<div id="footer">

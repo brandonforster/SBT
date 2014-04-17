@@ -29,10 +29,10 @@ function market(sellVal, buyVal, trend, prices, index)
 		this.currIndex = (this.currIndex + 1) % 300;
 	}
 
-	this.newTrend = function(googfu)
+	this.newTrend = function(algo)
 	{
 		var ran = Math.random();
-		ran *= (1 +(googfu/20.0));
+		ran *= (1 +(algo/20.0));
 		//console.log(ran);
 		// 5% chance of super high up trend
 		if(ran > 0.95)
