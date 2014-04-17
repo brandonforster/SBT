@@ -1,10 +1,16 @@
-function market(sellVal, buyVal, trend)
+function market(sellVal, buyVal, trend, prices, index)
 {	
 	this.sellValue = sellVal;
 	this.buyValue  = buyVal;
 	this.trend     = trend;
+	this.prices = new Array();
+	for(var i = 0; i < 300; i++)
+	{
+		this.prices[i] = prices[i];
+	}
+	this.currIndex = index;
 
-	this.updatePrice = function()
+	this.updatePrice = function(price)
 	{
 		this.sellValue = this.sellValue + this.trend;
 		if(this.sellValue < 1)
@@ -12,11 +18,15 @@ function market(sellVal, buyVal, trend)
 			this.sellValue = 1;
 		}
 		
-		this.buyValue  = this.buyValue  + this.trend;
+		this.buyVal
+		ue  = this.buyValue  + this.trend;
 		if(this.buyValue < 1)
 		{
 			this.buyValue = 1;
 		}	
+
+		this.prices[this.currIndex] = price;
+		this.currIndex = (this.currIndex + 1) % 300;
 	}
 
 	this.newTrend = function(googfu)

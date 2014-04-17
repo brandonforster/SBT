@@ -16,6 +16,18 @@ function mine(mineRate){
                     this.mineRate += .020;
                     return this.getMinerPrice(250, hardware);
                     break;
+                case(3):
+                    this.mineRate += .100;
+                    return this.getMinerPrice(1000, hardware);
+                    break;
+                case(4):
+                    this.mineRate += .750;
+                    return this.getMinerPrice(5000, hardware);
+                    break;
+                case(5):
+                    this.mineRate += 4.000;
+                    return this.getMinerPrice(25000, hardware);
+                    break;
                 default:
                     return 0.00;
                     break;
@@ -32,11 +44,20 @@ function mine(mineRate){
                 case(2):
                     return 250.00;
                     break;
+                case(3):
+                    return 1000.00;
+                    break;
+                case(4):
+                    return 5000.00;
+                    break;
+                case(5):
+                    return 25000.00;
+                    break;
                 default:
                     return 0.00;
             }
         }
-        
+
         this.getMinerPrice = function(basePrice, hardware)
         {
             return basePrice * (1 - (hardware / 20.0));
