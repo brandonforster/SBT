@@ -19,7 +19,7 @@
 		<h2>Student Login Portal </h2>
 		<form name="submitter" action="s64.php" onsubmit="return(validate());" method="POST">
 			Name:
-			<input type="text" name="userName" placeholder="Ima Knight">
+			<input type="text" name="userName" placeholder="Enter Name" autocomplete="off">
 
 			<br>
 			Major:

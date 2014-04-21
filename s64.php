@@ -39,15 +39,8 @@
 
 		<form>
 			<input type="button" Value="Log Out" onclick="errorMessage()">
-			<input type="button" onclick="jsTest();" Value="My CTU Profile"/> 
 		</form>
 	</div>
-
-		<ul>
-			<li><a href="sb64.html">Student Profile </a></li>
-			<li><a href="sb64.html">CTU News!</a></li>
-			<li><a href="sb64.html">Your Custom Links!</a></li>
-		<ul>
 
 	</body>
 

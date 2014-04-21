@@ -53,10 +53,18 @@ function GameManager()
 
 	// Initializes game state
 	function begin()
-	{ //loading in read stats of Degree
+	{   //loading in read stats of Degree
 		this.jsName = localStorage.getItem("name");
 		this.jsMajor = localStorage.getItem("major");
-
+		if(this.jsName == null || this.jsName == "null" || this.jsName == undefined || this.jsName == "undefined")
+		{
+			this.jsName = "Player";
+		}
+		if(this.jsMajor == null || this.jsName == "null" || this.jsMajor == undefined || this.jsMajor == "undefined")
+		{
+			this.jsMajor = "CS";
+		}
+		// Initialize gamer, or load from localStorage
 		var hold = localStorage.getItem('gamer');
 		if(hold == null)
 		{
@@ -80,7 +88,7 @@ function GameManager()
 		if(temp == null || temp == "false")
 		{
 			
-			alert("You have one mission. BitCoins.\n\nAre you a bad enough dude or dudette to ignore all your classes, real life responsibilities, and focus on one thing? Of course you are. You're an engineering student. Your task is to mine BitCoin all day. Everyday. Your goal is make a billion USD before you graduate.\n\nYour parent's always said you were \"good with computers\". This should be easy!");
+			//alert("You have one mission. BitCoins.\n\nAre you a bad enough dude or dudette to ignore all your classes, real life responsibilities, and focus on one thing? Of course you are. You're an engineering student. Your task is to mine BitCoin all day. Everyday. Your goal is make a billion USD before you graduate.\n\nYour parent's always said you were \"good with computers\". This should be easy!");
 			localStorage.setItem('playedBefore', true);
 		}
 		
@@ -121,9 +129,10 @@ function GameManager()
 			tempMarket = JSON.parse(tempMarket);
 			loadMarket(tempMarket);
 		}
-
+		// Draws base graph on screen
 		initialGraph();
 
+		// Set major intervals for mining, updating market, and activating random events
 		this.marketUpdate = setInterval(function(){
 			this.currMarket.updatePrice(this.currMarket.sellValue);
 			updateGraph();
@@ -149,8 +158,10 @@ function GameManager()
 
 	function randomEvent()
 	{
+		// Randomly generate number and increase based on googfu stat
 		var ran = Math.random();
 		ran *= (1 +(this.gamer.googfu/20.0));
+		
 		// Roughly 3% of market crash
 		if(ran > 0.3 && ran < 0.33)
 		{
@@ -179,6 +190,8 @@ function GameManager()
 
 
 	}
+
+	// Loop through prices array and draw each point to canvas
 	function initialGraph()
 	{
 		var canvas = document.getElementById("graphCanvas");
@@ -192,11 +205,14 @@ function GameManager()
 		}
 	}
 
+	// Update graph every second as new prices come in
 	function updateGraph()
 	{
 		var canvas = document.getElementById("graphCanvas");
+		// Clear canvas for new drawing
 		canvas.width = canvas.width;
 		var context = canvas.getContext("2d");
+		// Draw coordinate plane
 		context.beginPath();
 		for (var x = 0.5; x < 600; x += 10) {
   			context.moveTo(x, 0);
@@ -210,14 +226,17 @@ function GameManager()
 
 		context.strokeStyle = "#eee";
 		context.stroke();
+		// Draw market graph
 		context.beginPath();
-
-
+		// Use maxVal to scale graph, to fit on screen
 		var maxVal = findMaxVal();
+		// Add 200 to create buffer from top of screen
 		maxVal += 200;
 		context.moveTo(0, this.currMarket.prices[this.currMarket.currIndex]);
 		var j = 0;
 		context.strokeStyle = "#000";
+		// currIndex indicates where oldest prices start
+		// Start loop at oldest prices and continue to right before currIndex
 		for(var i = this.currMarket.currIndex; i < 300; i++)
 		{
 			context.lineTo(j, canvas.height - (canvas.height * (this.currMarket.prices[i]/maxVal)));
@@ -234,6 +253,7 @@ function GameManager()
 		}
 	}
 
+	// Returns largest value in prices array
 	function findMaxVal()
 	{
 		var currMax = 0;
@@ -278,6 +298,7 @@ function GameManager()
 		this.currWallet = new wallet(btc, dol);
 	}
 
+	// Load market 
 	function loadMarket(temp)
 	{
 		var buy = parseFloat(temp['buyValue']);
@@ -313,14 +334,37 @@ function GameManager()
 
 	function displayUpdate(){
 			// Show wallet values
-			amount.innerHTML = this.currWallet.bitcoin.toFixed(3);
-			dols.innerHTML   = "$" + this.currWallet.dollars.toFixed(2);
-
+			amount.innerHTML = addCommas(this.currWallet.bitcoin.toFixed(3));
+			if(this.currWallet.bitcoin > 1000000000)
+			{
+				amount.style.fontSize = ".9em";
+			}
+			else if(this.currWallet.bitcoin > 1000000000000)
+			{
+				amount.style.fontSize = ".5em";
+			}
+			dols.innerHTML   = "$" + addCommas(this.currWallet.dollars.toFixed(2));
+			if(this.currWallet.dollars > 1000000000)
+			{
+				dols.style.fontSize = ".9em";
+			}
+			else if(this.currWallet.dollars > 1000000000000)
+			{
+				dols.style.fontSize = ".5em";
+			}
 			// Show miner values
-			delta.innerHTML  = this.miner.mineRate.toFixed(3);
-			sellRate.innerHTML = this.currSeller.sellRate.toFixed(3);
+			delta.innerHTML  = addCommas(this.miner.mineRate.toFixed(3));
+			if(this.miner.mineRate > 100000000)
+			{
+				delta.style.fontSize = ".9em";
+			}
+			sellRate.innerHTML = addCommas(this.currSeller.sellRate.toFixed(3));
+			if(this.currSeller.sellRate > 10000000)
+			{
+				sellRate.style.fontSize = ".9em";
+			}
 			// Show market values
-			sellVal.innerHTML = "$" + this.currMarket.sellValue.toFixed(2);
+			sellVal.innerHTML = "$" + addCommas(this.currMarket.sellValue.toFixed(2));
 
 			// Show player stats
 			document.getElementById("Hard").innerHTML = this.gamer.hardware;
@@ -329,35 +373,55 @@ function GameManager()
 			document.getElementById("Goog").innerHTML = this.gamer.googfu;
 
 			document.getElementById("mc1").innerHTML = 
-			"Basic BitCoin Miner $" + this.miner.getMinerPrice(100, this.gamer.hardware).toFixed(2) + " (+.005 BTC/s)";
+			"A Literal Pickaxe $" + addCommas(this.miner.getMinerPrice(100, this.gamer.hardware).toFixed(2)) + " (+.005 BTC/s)";
 			document.getElementById("mc2").innerHTML =
-			"GPU++ BitCoin Miner $" + this.miner.getMinerPrice(250, this.gamer.hardware).toFixed(2) + " (+.020 BTC/s)";
+			"GTX Pantheon 200 $" + addCommas(this.miner.getMinerPrice(250, this.gamer.hardware).toFixed(2)) + " (+.020 BTC/s)";
 			document.getElementById("mc3").innerHTML =
-			"Level 3 BitCoin Miner $" + this.miner.getMinerPrice(1000, this.gamer.hardware).toFixed(2) + " (+.100 BTC/s)";
+			"GTX Acropolis 777 $" + addCommas(this.miner.getMinerPrice(1000, this.gamer.hardware).toFixed(2)) + " (+.100 BTC/s)";
 			document.getElementById("mc4").innerHTML =
-			"Level 4 BitCoin Miner $" + this.miner.getMinerPrice(5000, this.gamer.hardware).toFixed(2) + " (+.750 BTC/s)";
+			"Spartan Miner 888 $" + addCommas(this.miner.getMinerPrice(5000, this.gamer.hardware).toFixed(2)) + " (+.750 BTC/s)";
 			document.getElementById("mc5").innerHTML =
-			"Level 5 BitCoin Miner $" + this.miner.getMinerPrice(25000, this.gamer.hardware).toFixed(2) + " (+4.000 BTC/s)";
+			"MAD FXX 999 $" + addCommas(this.miner.getMinerPrice(25000, this.gamer.hardware).toFixed(2)) + " (+4.000 BTC/s)";
+			document.getElementById("mc6").innerHTML =
+			"Living Dead Decrypter $" + addCommas(this.miner.getMinerPrice(100000, this.gamer.hardware).toFixed(2)) + " (+20.000 BTC/s)";
+			document.getElementById("mc7").innerHTML =
+			"Goat Graphics Sim $" + addCommas(this.miner.getMinerPrice(500000, this.gamer.hardware).toFixed(2)) + " (+150.000 BTC/s)";
+			document.getElementById("mc8").innerHTML =
+			"Octodad Octocore $" + addCommas(this.miner.getMinerPrice(2500000, this.gamer.hardware).toFixed(2)) + " (+1,000.000 BTC/s)";
+			document.getElementById("mc9").innerHTML =
+			"Quantas Quantum $" + addCommas(this.miner.getMinerPrice(10000000, this.gamer.hardware).toFixed(2)) + " (+5,000.000 BTC/s)";
+			document.getElementById("mc10").innerHTML =
+			"GoogleCore $" + addCommas(this.miner.getMinerPrice(100000000, this.gamer.hardware).toFixed(2)) + " (+100,000.000 BTC/s)";
 
 			document.getElementById("sc1").innerHTML = 
-			"Level 1 Seller $" + this.currSeller.getSellerPrice(100, this.gamer.software).toFixed(2) + " (Sells .005 BTC/s)";
+			"NileRiver mTurk Seller $" + addCommas(this.currSeller.getSellerPrice(100, this.gamer.software).toFixed(2)) + " (Sells .005 BTC/s)";
 			document.getElementById("sc2").innerHTML =
-			"Level 2 Seller $" + this.currSeller.getSellerPrice(250, this.gamer.software).toFixed(2) + " (Sells .020 BTC/s)";
+			"TaskBunny Basic Seller $" + addCommas(this.currSeller.getSellerPrice(250, this.gamer.software).toFixed(2)) + " (Sells .020 BTC/s)";
 			document.getElementById("sc3").innerHTML =
-			"Level 3 Seller $" + this.currSeller.getSellerPrice(1000, this.gamer.software).toFixed(2) + " (Sells .100 BTC/s)";
+			"Wall-Street Pro Seller $" + addCommas(this.currSeller.getSellerPrice(1000, this.gamer.software).toFixed(2)) + " (Sells .100 BTC/s)";
 			document.getElementById("sc4").innerHTML =
-			"Level 4 Seller $" + this.currSeller.getSellerPrice(5000, this.gamer.software).toFixed(2) + " (Sells .750 BTC/s)";
+			"CarlsList Seller $" + addCommas(this.currSeller.getSellerPrice(5000, this.gamer.software).toFixed(2)) + " (Sells .750 BTC/s)";
 			document.getElementById("sc5").innerHTML =
-			"Level 5 Seller $" + this.currSeller.getSellerPrice(25000, this.gamer.software).toFixed(2) + " (Sells 4.000 BTC/s)";
+			"NextLevel Seller $" + addCommas(this.currSeller.getSellerPrice(25000, this.gamer.software).toFixed(2)) + " (Sells 4.000 BTC/s)";
+			document.getElementById("sc6").innerHTML =
+			"Petras Miracle Seller $" + addCommas(this.currSeller.getSellerPrice(100000, this.gamer.software).toFixed(2)) + " (Sells 20.000 BTC/s)";
+			document.getElementById("sc7").innerHTML =
+			"Undead Mania Seller $" + addCommas(this.currSeller.getSellerPrice(500000, this.gamer.software).toFixed(2)) + " (Sells 150.000 BTC/s)";
+			document.getElementById("sc8").innerHTML =
+			"Astora Titanite Seller $" + addCommas(this.currSeller.getSellerPrice(2500000, this.gamer.software).toFixed(2)) + " (Sells 1,000.000 BTC/s)";
+			document.getElementById("sc9").innerHTML =
+			"Hawkeye Giant Seller $" + addCommas(this.currSeller.getSellerPrice(10000000, this.gamer.software).toFixed(2)) + " (Sells 5,000.000 BTC/s)";
+			document.getElementById("sc10").innerHTML =
+			"GooglePlex Seller $" + addCommas(this.currSeller.getSellerPrice(100000000, this.gamer.software).toFixed(2)) + " (Sells 100,000.000 BTC/s)";
 
 			document.getElementById("su1").innerHTML = 
-			"Hardware +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.hardware).toFixed(2) + ")";
+			"Hardware +1 ($" + addCommas(this.gamer.getStatUpgradePrice(this.gamer.hardware).toFixed(2)) + ")";
 			document.getElementById("su2").innerHTML = 
-			"Software +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.software).toFixed(2) + ")";
+			"Software +1 ($" + addCommas(this.gamer.getStatUpgradePrice(this.gamer.software).toFixed(2)) + ")";
 			document.getElementById("su3").innerHTML = 
-			"Algorithms +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.algo).toFixed(2) + ")";
+			"Algorithms +1 ($" + addCommas(this.gamer.getStatUpgradePrice(this.gamer.algo).toFixed(2)) + ")";
 			document.getElementById("su4").innerHTML = 
-			"Google-Fu +1 ($" + this.gamer.getStatUpgradePrice(this.gamer.googfu).toFixed(2) + ")";
+			"Google-Fu +1 ($" + addCommas(this.gamer.getStatUpgradePrice(this.gamer.googfu).toFixed(2)) + ")";
 	}
 
 	function startMining()
@@ -469,7 +533,7 @@ function GameManager()
 	function buyBitcoin()
 	{
 		var amount = parseFloat(buyAmount.value);
-		if(this.currWallet.dollars >= (this.currMarket.buyValue * amount))
+		if(this.currWallet.dollars >= (this.currMarket.buyValue * amount) && amount > 0)
 		{
 			this.currWallet.dollars -= (this.currMarket.buyValue * amount);
 			this.currWallet.bitcoin += amount;
@@ -494,7 +558,7 @@ function GameManager()
 	function sellBitcoin()
 	{
 		var amount = parseFloat(sellAmount.value);
-		if(this.currWallet.bitcoin >= amount)
+		if(this.currWallet.bitcoin >= amount && amount > 0)
 		{
 			this.currWallet.bitcoin -= amount;
 			this.currWallet.dollars += (this.currMarket.sellValue * amount);
@@ -627,6 +691,8 @@ function GameManager()
 				hold.removeChild(del);
 			}, 3000);
 		}
+
+
 	}
 
 	function loadGamer(temp)
@@ -634,8 +700,21 @@ function GameManager()
 		this.gamer = new player(temp['name'], temp['major']);
 		this.gamer.fullMajor= temp['fullMajor'];
 		this.gamer.hardware = parseInt(temp['hardware']);
+		if(isNaN(this.gamer.hardware) || this.gamer.hardware == null || this.gamer.hardware == "null")
+			this.gamer.hardware = 1;
 		this.gamer.software = parseInt(temp['software']);
+		if(isNaN(this.gamer.software) || this.gamer.software == null || this.gamer.software == "null")
+			this.gamer.software = 4;
 		this.gamer.algo     = parseInt(temp['algo']);
+		if(isNaN(this.gamer.algo)|| this.gamer.algo == null || this.gamer.algo == "null")
+			this.gamer.algo = 7;
 		this.gamer.googfu   = parseInt(temp['googfu']);
+		if(isNaN(this.gamer.googfu)|| this.gamer.googfu == null || this.gamer.googfu == "null")
+			this.gamer.googfu = 3;
+	}
+
+	function addCommas(x)
+	{
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 }
