@@ -10,7 +10,8 @@
             ((__.-'((___..-'' \__.'
 
 
-
+/* The humans responsible for Super Bitcoin Trader 64 */
+/* humanstxt.org */
 
 /* TEAM */
 Team Tigers

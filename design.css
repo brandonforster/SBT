@@ -20,7 +20,7 @@ a{
 	padding-top: 10px;
 	background-color: #e74c3c;
 	text-align: center;
-	font-size: 40px;
+	font-size: 2.25em;
 	color: #ecf0f1;
 	font-family: "Press Start 2P", Courier;	
 }
@@ -43,6 +43,7 @@ a{
 	padding-bottom: 20px;
 	width: 30%;
 	float: left;
+	font-size: 1.5em;
 	height: 600px;
 }
 #walletDiv
@@ -50,14 +51,12 @@ a{
 	margin-top: 25px;
 	margin-bottom: 50px;
 	text-align: center;
-	font-size: 40px;
 	font-family: "Press Start 2P", Courier;	
 }
 #minerDiv
 {
 	margin-bottom: 50px;
 	text-align: center;
-	font-size: 40px;
 	font-family: "Press Start 2P", Courier;	
 }
 
@@ -65,15 +64,15 @@ a{
 {
 	margin-bottom: 50px;
 	text-align: center;
-	font-size: 40px;
 	font-family: "Press Start 2P", Courier;	
 }
 
 #market{
-	margin-top: 10px;
+	margin-top: 50px;
+	margin-bottom: 100px;
 	margin-left: 50px;
 	padding-top: 25px;
-	padding-bottom: 20px;
+	padding-bottom: 50px;
 	width: 50%;
 	height: 575px;
 	float: left;
@@ -86,7 +85,7 @@ a{
 	width: 100%;
 	margin-bottom: 0;
 	text-align: center;
-	font-size: 40px;
+	font-size: 2.25em;
 	font-family: "Press Start 2P", Courier;	
 }
 
@@ -113,7 +112,7 @@ a{
 	margin-left: 50px;
 	background-color: #e74c3c; 
 	border-radius: 10px;
-	font-size: 30px;
+	font-size: 1.5em;
 	font-family: "Press Start 2P", Courier;	
 }
 
@@ -122,12 +121,12 @@ a{
 	border-radius: 10px;
 	float: left;
 	width: 50%;
-	margin-top: 50px;
+	height: 575px;
+	margin-top: 10px;
 	margin-left: 50px;
-	margin-bottom: 200px;
 	padding-top: 25px;
 	padding-bottom: 25px;
-	font-size: 15px;
+	font-size: 1em;
 	font-family: "Press Start 2P", Courier;	
 	text-align: center;
 }
@@ -270,4 +269,10 @@ select {
 
 li{
 	margin-top: 20px;
+}
+
+h1{
+	color: #ecf0f1;
+	font-size: 1.6em;
+	margin-top: 0px;
 }

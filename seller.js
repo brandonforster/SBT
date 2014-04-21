@@ -26,6 +26,26 @@ function seller(sellRate){
                     this.sellRate += 4.000;
                     return this.getSellerPrice(25000, software);
                     break;
+                case(6):
+                    this.sellRate += 20.000;
+                    return this.getSellerPrice(100000, software);
+                    break;
+                case(7):
+                    this.sellRate += 150.000;
+                    return this.getSellerPrice(500000, software);
+                    break;
+                case(8):
+                    this.sellRate += 1000.000;
+                    return this.getSellerPrice(2500000, software);
+                    break;
+                case(9):
+                    this.sellRate += 5000.000;
+                    return this.getSellerPrice(10000000, software);
+                    break;
+                case(10):
+                    this.sellRate += 100000.000;
+                    return this.getSellerPrice(100000000, software);
+                    break;
                 default:
                     return 0.00;
                     break;
@@ -50,6 +70,21 @@ function seller(sellRate){
                     break;
                 case(5):
                     return 25000.00;
+                    break;
+                case(6):
+                    return 100000.00;
+                    break;
+                case(7):
+                    return 500000.00;
+                    break;
+                case(8):
+                    return 2500000.00;
+                    break;
+                case(9):
+                    return 10000000.00;
+                    break;
+                case(10):
+                    return 100000000.00;
                     break;
                 default:
                     return 0.00;
